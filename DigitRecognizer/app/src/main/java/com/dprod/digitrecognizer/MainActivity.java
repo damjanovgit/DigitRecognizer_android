@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dprod.digitrecognizer.ml.Mnist;
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private Button clearBtn;
     private Button predictBtn;
 
+    private EditText enteredNumber;
+
     private boolean clearScreen = false;
     private boolean getImage = false;
 
@@ -52,13 +56,13 @@ public class MainActivity extends AppCompatActivity {
 
     public class Sketch extends PApplet {
         public void settings() {
-            size(600, 600);
+            size(300, 300);
         }
 
         public void setup() {
             background(0x00);
             stroke(0xffffffff);
-            strokeWeight(20);
+            strokeWeight(45);
         }
 
         public void draw() {
@@ -97,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         context = this.getApplicationContext();
+
+        enteredNumber = (EditText)findViewById(R.id.enteredNumber);
 
         clearBtn = (Button)findViewById(R.id.clearBtn);
         clearBtn.setOnClickListener(v -> clearScreen = true);
@@ -149,10 +155,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                         System.out.println("Max na " + maxAt);
 
-                        int a = maxAt;
+                        final int a = maxAt;
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(MainActivity.this, "Number " + a, Toast.LENGTH_SHORT).show();
+                                enteredNumber.setText(enteredNumber.getText().toString() + a);
                             }
                         });
 

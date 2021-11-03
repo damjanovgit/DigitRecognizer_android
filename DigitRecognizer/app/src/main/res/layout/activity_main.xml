@@ -17,7 +17,8 @@
             android:id="@+id/fragmentContainerView"
             android:name="processing.android.PFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/white"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,17 +42,27 @@
                 android:text="What digit it is" />
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/enteredNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="" />
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleX="4"
-            android:scaleY="5"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:rotation="45"
-            android:textColor="@color/black"
+            android:rotation="0"
+            android:scaleX="1"
+            android:scaleY="1"
             android:text="Write on black area\nWrite on black area\n"
-            android:visibility="visible" />
+            android:textColor="@color/black"
+            android:visibility="visible"
+            tools:visibility="visible" />
 
     </LinearLayout>
 
