@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <androidx.fragment.app.FragmentContainerView
@@ -18,7 +21,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
@@ -27,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_weight="1"
-                android:text="Obrisi" />
+                android:text="Clear" />
 
             <Button
                 android:id="@+id/predictBtn"
@@ -35,8 +38,20 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_weight="1"
-                android:text="Vidi cifru" />
+                android:text="What digit it is" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleX="4"
+            android:scaleY="5"
+            android:gravity="center"
+            android:rotation="45"
+            android:textColor="@color/black"
+            android:text="Write on black area\nWrite on black area\n"
+            android:visibility="visible" />
 
     </LinearLayout>
 

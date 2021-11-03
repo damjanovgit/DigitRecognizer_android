@@ -23,6 +23,7 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.sql.SQLOutput;
 import java.util.Arrays;
@@ -78,10 +79,14 @@ public class MainActivity extends AppCompatActivity {
 
     private PApplet sketch;
 
-    private static ByteBuffer floatArrayToByteArray(float[] input)
+    private static ByteBuffer toByteBuffer(float[] input)
     {
         final ByteBuffer buffer = ByteBuffer.allocate(Float.BYTES * input.length);
-        buffer.asFloatBuffer().put(input);
+        buffer.order(ByteOrder.nativeOrder());
+
+        for(int i = 0; i < 28 * 28; i++) {
+            buffer.putFloat(input[i]);
+        }
         return buffer;
     }
 
@@ -127,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // Creates inputs for reference.
                         TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 28, 28}, DataType.FLOAT32);
-                        inputFeature0.loadBuffer(floatArrayToByteArray(inputArray));
+                        inputFeature0.loadBuffer(toByteBuffer(inputArray));
 
                         // Runs model inference and gets result.
                         Mnist.Outputs outputs = model.process(inputFeature0);
@@ -147,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                         int a = maxAt;
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(MainActivity.this, "To je broj " + a, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Number " + a, Toast.LENGTH_SHORT).show();
                             }
                         });
 
