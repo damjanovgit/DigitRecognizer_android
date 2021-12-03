@@ -56,13 +56,13 @@ public class MainActivity extends AppCompatActivity {
 
     public class Sketch extends PApplet {
         public void settings() {
-            size(300, 300);
+            size(600, 600);
         }
 
         public void setup() {
             background(0x00);
             stroke(0xffffffff);
-            strokeWeight(45);
+            strokeWeight(35);
         }
 
         public void draw() {
