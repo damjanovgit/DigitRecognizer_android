@@ -16,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dprod.digitrecognizer.ml.BaseMnist;
+import com.dprod.digitrecognizer.ml.ImporvedMnist;
 import com.dprod.digitrecognizer.ml.Mnist;
 
 import org.tensorflow.lite.DataType;
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         public void setup() {
             background(0x00);
             stroke(0xffffffff);
-            strokeWeight(35);
+            strokeWeight(60);
         }
 
         public void draw() {
@@ -126,22 +128,24 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("Values: ");
                     for(int i = 0; i < 28; i++){
                         for(int j = 0; j < 28; j++) {
-                            if (img.pixels[i + j * 28] < -10000000) inputArray[i + j * 28] = 0;
-                            else inputArray[i + j * 28] = 1;
+                            //if (img.pixels[i + j * 28] < -10000000) inputArray[i + j * 28] = 0;
+                            //else inputArray[i + j * 28] = 1;
+                            //System.out.print(inputArray[i + j * 28] + " ");
+                            inputArray[i + j * 28] = ((img.pixels[i + j * 28] & 0x0000ff) + ((img.pixels[i + j * 28] & 0x00ff00) >> 8) + ((img.pixels[i + j * 28] & 0xff0000) >> 16)) / 3.0f / 255.0f;
                             System.out.print(inputArray[i + j * 28] + " ");
                         }
                         System.out.println();
                     }
 
                     try {
-                        Mnist model = Mnist.newInstance(context);
+                        ImporvedMnist model = ImporvedMnist.newInstance(context);
 
                         // Creates inputs for reference.
                         TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 28, 28}, DataType.FLOAT32);
                         inputFeature0.loadBuffer(toByteBuffer(inputArray));
 
                         // Runs model inference and gets result.
-                        Mnist.Outputs outputs = model.process(inputFeature0);
+                        ImporvedMnist.Outputs outputs = model.process(inputFeature0);
                         TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
                         float out[] = outputFeature0.getFloatArray();
@@ -155,11 +159,16 @@ public class MainActivity extends AppCompatActivity {
                         }
                         System.out.println("Max na " + maxAt);
 
+                        if(out[maxAt] < 0.6) maxAt = 10;
+
                         final int a = maxAt;
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(MainActivity.this, "Number " + a, Toast.LENGTH_SHORT).show();
-                                enteredNumber.setText(enteredNumber.getText().toString() + a);
+                                if(a < 10) {
+                                    Toast.makeText(MainActivity.this, "Number " + a, Toast.LENGTH_SHORT).show();
+                                    enteredNumber.setText(enteredNumber.getText().toString() + a);
+                                }
+                                else Toast.makeText(MainActivity.this, "Kurčina Anđela", Toast.LENGTH_SHORT).show();
                             }
                         });
 
